@@ -1,5 +1,6 @@
-#ifndef FUNK_c
-#define FUNK_C 
+#ifndef FUNK_C
+#define FUNK_Cl
+
 
 
 #endif
