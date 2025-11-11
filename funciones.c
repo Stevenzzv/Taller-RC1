@@ -32,7 +32,7 @@ void menu(){
 void limpiar_Buffer(){
     int c;
 
-    while((c = getchar()) != '\n' && c != EOF) {}
+    while((c = getchar()) != '\n' && c != EOF);
 }
 
 int LeerNum(void){
@@ -98,6 +98,18 @@ void selector(int opcion){
         /* code */
         break;
     case 6:
+        /* code */
+        break;
+    case 7:
+        /* code */
+        break;
+    case 8:
+        /* code */
+        break;
+    case 9:
+        /* code */
+        break;
+    case 10:
         printf("Gracias...\n");
         break;
     
