@@ -23,3 +23,13 @@ El equipo de trabajo (grupo de 3 estudiantes) debe desarrollar un programa en C 
 •	No utilizar estructuras ni archivos para persistir datos.
 •	Uso permitido de arreglos y punteros para manejar los datos.
 •	Evitar el uso de funciones predefinidas para tareas de ordenamiento o búsqueda (desarrollar la lógica propia).
+
+**Actualizaciones_Paqui 2025/11/10 23:41H:**
+
+• Modifique un poco la funcion "menu" para agregar opciones faltantes
+• Cree la funcion "Limpiar buffer" especificamente para limpiar el bufer cuando sea necesario
+• Cree la funcion "LeerNum" (entero) 
+• Cree la funcion "LeerFloat" (flotante) 
+• Cree la funcion "LeerChar" (Cadena de caracteres) 
+• Cree la funcion "NoRepeat" (Servira para evitar el ingreso de nombres repetidos)
+• 
