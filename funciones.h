@@ -6,6 +6,5 @@ float LeerFloat();
 int LeerNum(void);
 void limpiar_Buffer();
 void NoRepeat(char nombre[][20], int cont);
-void selector(int opcion);
 
 #endif
