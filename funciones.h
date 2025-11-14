@@ -5,6 +5,6 @@ void LeerChar(char cadena[]);
 float LeerFloat();
 int LeerNum(void);
 void limpiar_Buffer();
-void NoRepeat(char nombre[][20], int cont);
+int NoRepeat(char nombre[][30], int cont, const char *nuevo, int skipIndex);
 
 #endif

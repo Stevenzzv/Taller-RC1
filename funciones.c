@@ -62,18 +62,15 @@ float LeerFloat(){
 }
 
 void LeerChar(char cadena[]){
-    fgets(cadena, 20, stdin);     // Leer 
+    fgets(cadena, 30, stdin);     // Leer 
     int lan = strlen(cadena) - 1; // Encontrar el "\n"
     cadena[lan] = '\0';           // Reemplazar el "\n" por "\0"
 }
 
-void NoRepeat(char nombre[][20], int cont){
-    int c;
-    
-    for (int k = 0; k < cont; k++)
-    {
-        while(strcmp(nombre[cont], nombre[k])==0){
-            LeerChar(nombre[cont]);
-        }
+int NoRepeat(char nombre[][30], int cont, const char *nuevo, int skipIndex){
+    for (int i = 0; i < cont; ++i) {
+        if (i == skipIndex) continue;
+        if (strcmp(nombre[i], nuevo) == 0) return 1; // ya existe
     }
+    return 0; // no existe
 }
