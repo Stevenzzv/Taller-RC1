@@ -5,26 +5,26 @@
 void menu(){
     printf("-------------GESTION DE PRODUCCION---------------\n\n");
 
-    printf("--- I. GESTION DE PRODUCTOS Y ESPECIFICACIONES ---\n\n");
-    printf("1. **Agregar** Nuevo Producto\n");
-    printf("2. **Editar** las Especificaciones de un producto\n");
-    printf("3. **Eliminar** un Producto\n\n");
-
-    printf("--- II. DEFINICION DE REQUERIMIENTOS ---\n\n");
-    
+    printf("--- I. GESTION DE PRODUCTOS Y REQUERIMIENTOS ---\n\n");
+    printf("1. Establecer **Recursos** Necesarios\n");
+    printf("2. **Agregar** Nuevo Producto\n");
+    printf("3. Establecer **Recursos** por Producto\n");
     printf("4. Establecer **Tiempo** de Fabricacion (min)\n");
-    printf("5. Establecer **Recursos** Necesarios\n");
-    printf("6. Establecer **Demanda** de un Producto\n\n");
+    printf("5. Establecer **Demanda** de un Producto\n\n");
+
+    printf("--- II. CALCULOS Y ANALISIS DE CAPACIDAD ---\n\n");
     
-    printf("--- III. CALCULOS Y ANALISIS DE CAPACIDAD ---\n\n");
+    printf("6. **Calcular** Tiempo Requerido para Cumplir la Demanda\n");
+    printf("7. **Calcular** Recursos Totales Necesarios para la Produccion\n");
+    printf("8. **Estimar** Cumplimiento de demanda (con Limites de Tiempo/Recursos) \n\n");
     
-    printf("7. **Calcular** Tiempo Requerido para Cumplir la Demanda\n");
-    printf("8. **Calcular** Recursos Totales Necesarios para la Produccion\n");
-    printf("9. **Estimar** Cumplimiento de demanda (con Limites de Tiempo/Recursos) \n\n");
+    printf("--- III. EDICION ---\n\n");
+    printf("9. **Editar** las Especificaciones de un producto\n");
+    printf("10. **Eliminar** un Producto\n\n");
     
     printf("--- IV. FINALIZAR ---\n\n");
 
-    printf("10. Salir\n");
+    printf("11. Salir\n");
     printf("-------------------------------------------------\n");
     printf(">> ");
 
