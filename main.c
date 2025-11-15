@@ -44,10 +44,7 @@ int main()
               printf("Ingrese el nuevo nombre para %s: ", productos[prodIndex]);
               limpiar_Buffer();
               LeerChar(productos[prodIndex]);
-              if(strcmp(productos[prodIndex],"") == 0){
-                  printf("Edicion cancelada, no se puede dejar en blanco el nombre.\n");
-                  break;
-              }
+              
               
               
               printf("Producto editado exitosamente a %s.\n", productos[prodIndex]);
