@@ -17,7 +17,7 @@ int main()
     switch (opcion)
     {
     case 1: //Establecer recursos necesarios (tipos, max 3)
-
+    
       break;
     case 2: // Agregar producto (max 5)
       if (contador < 5) {
@@ -30,6 +30,7 @@ int main()
           printf("Capacidad maxima de productos alcanzada.\n");
       }
       break;
+
     case 3: //Eliminar un producto
 
         break;
