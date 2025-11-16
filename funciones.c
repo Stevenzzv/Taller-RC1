@@ -19,8 +19,8 @@ void menu(){
     printf("8. **Estimar** Cumplimiento de demanda (con Limites de Tiempo/Recursos) \n\n");
     
     printf("--- III. EDICION ---\n\n");
-    printf("9. **Editar** las Especificaciones de un producto\n");
-    printf("10. **Eliminar** un Producto\n\n");
+    printf("9. **Editar** Editar un producto\n");
+    printf("10. **Eliminar** Un producto\n\n");
     
     printf("--- IV. FINALIZAR ---\n\n");
 
@@ -73,4 +73,13 @@ int NoRepeat(char nombre[][30], int cont, const char *nuevo, int skipIndex){
         if (strcmp(nombre[i], nuevo) == 0) return 1; // ya existe
     }
     return 0; // no existe
+}
+int blanco(char *cadena){
+    if (cadena[0] == '\0') return 1;
+    for (int i = 0; cadena[i] != '\0'; i++) {
+        if (cadena[i] != ' ' && cadena[i] != '\t') {
+            return 0; // No está en blanco
+        }
+    }
+    return 1; // Está en blanco
 }
