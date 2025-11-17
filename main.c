@@ -343,35 +343,122 @@ int main()
     }
     break;
 
-    case 10: // Eliminar producto
-    printf("Seleccione el producto a eliminar:\n");
-    for (int i = 0; i < contador; i++)
-    {
-      printf("%d. %s\n", i + 1, productos[i]);
-    }
+    case 10: {
+    // Menú para editar nombres
+    printf("Que desea editar?\n");
+    printf("1. Nombre de un producto\n");
+    printf("2. Nombre de un recurso\n");
+    printf("3. Cancelar\n");
     printf(">> ");
-    int delIndex = LeerNum() - 1;
-    while (delIndex < 0 || delIndex >= contador) {
-      printf("**Seleccion invalida.**\n");
-      printf("Intentelo nuevamente.\n");
-      printf(">> ");
-      delIndex = LeerNum()-1;
-    }
-    printf("Has seleccionado eliminar: %s\n", productos[delIndex]);
-    if (delIndex >= 0 && delIndex < contador) {
-      for (int i = delIndex; i < contador - 1; i++) {
-        strcpy(productos[i], productos[i + 1]);
-      }
-      productos[contador - 1][0] = '\0'; // Limpiar el último
-      contador--;
-      printf("Producto eliminado exitosamente.\n");
+    int sub = LeerNum();
+    if (sub == 1) {
+        if (contador == 0) {
+            printf("No hay productos para editar.\n");
+            break;
+        }
+        printf("Seleccione el producto a editar:\n");
+        for (int i = 0; i < contador; ++i) printf("%d. %s\n", i + 1, productos[i]);
+        printf(">> ");
+        int idx = LeerNum() - 1;
+        while (idx < 0 || idx >= contador) {
+            printf("Seleccion invalida. >> ");
+            idx = LeerNum() - 1;
+        }
+        char nuevo[30] = {0};
+        printf("Ingrese el nuevo nombre para '%s' (deje vacio para cancelar): ", productos[idx]);
+        limpiar_Buffer();
+        LeerChar(nuevo);
+        if (blanco(nuevo)) {
+            printf("Edicion cancelada.\n");
+            break;
+        }
+        if (strcmp(nuevo, productos[idx]) == 0) {
+            printf("El nombre es igual al actual. Sin cambios.\n");
+            break;
+        }
+        if (NoRepeat(productos, contador, nuevo, idx)) {
+            printf("Ya existe un producto con ese nombre. Sin cambios.\n");
+            break;
+        }
+        strcpy(productos[idx], nuevo);
+        printf("Producto editado exitosamente a '%s'.\n", productos[idx]);
+    } else if (sub == 2) {
+        if (cantidadRecursos == 0) {
+            printf("No hay recursos para editar.\n");
+            break;
+        }
+        printf("Seleccione el recurso a editar:\n");
+        for (int i = 0; i < cantidadRecursos; ++i) printf("%d. %s\n", i + 1, recursos[i]);
+        printf(">> ");
+        int ridx = LeerNum() - 1;
+        while (ridx < 0 || ridx >= cantidadRecursos) {
+            printf("Seleccion invalida. >> ");
+            ridx = LeerNum() - 1;
+        }
+        char nuevoR[30] = {0};
+        printf("Ingrese el nuevo nombre para '%s' (deje vacio para cancelar): ", recursos[ridx]);
+        limpiar_Buffer();
+        LeerChar(nuevoR);
+        if (blanco(nuevoR)) {
+            printf("Edicion cancelada.\n");
+            break;
+        }
+        if (strcmp(nuevoR, recursos[ridx]) == 0) {
+            printf("El nombre es igual al actual. Sin cambios.\n");
+            break;
+        }
+        if (NoRepeat(recursos, cantidadRecursos, nuevoR, ridx)) {
+            printf("Ya existe un recurso con ese nombre. Sin cambios.\n");
+            break;
+        }
+        strcpy(recursos[ridx], nuevoR);
+        printf("Recurso editado exitosamente a '%s'.\n", recursos[ridx]);
     } else {
-      printf("Seleccion invalida.\n");
+        printf("Operacion cancelada.\n");
     }
-    break;
-    case 11:
+}
+break;
+    case 11: { // Eliminar producto por nombre y actualizar arrays asociados
+    if (contador == 0) {
+        printf("No hay productos.\n");
+        break;
+    }
+    char temp[30];
+    printf("Ingrese el nombre del producto a eliminar: ");
+    limpiar_Buffer();
+    LeerChar(temp);
+    if (blanco(temp)) {
+        printf("Operacion cancelada.\n");
+        break;
+    }
 
-    break;
+    int found = -1;
+    for (int i = 0; i < contador; ++i) {
+        if (strcmp(productos[i], temp) == 0) { found = i; break; }
+    }
+    if (found == -1) {
+        printf("Producto no encontrado.\n");
+        break;
+    }
+
+    // desplazar todos los arrays paralelos hacia la izquierda
+    for (int i = found; i < contador - 1; ++i) {
+        strcpy(productos[i], productos[i + 1]);
+        tiempo[i] = tiempo[i + 1];
+        demanda[i] = demanda[i + 1];
+        for (int r = 0; r < cantidadRecursos; ++r) recursosP[i][r] = recursosP[i + 1][r];
+    }
+
+    // limpiar la última entrada ahora vacía
+    productos[contador - 1][0] = '\0';
+    tiempo[contador - 1] = 0;
+    demanda[contador - 1] = 0;
+    for (int r = 0; r < cantidadRecursos; ++r) recursosP[contador - 1][r] = 0;
+
+    contador--;
+    printf("Producto eliminado exitosamente.\n");
+}
+break;
     case 12: //Salir
     printf("Gracias...\n");
     break;
@@ -381,21 +468,34 @@ int main()
     printf("**Elige un numero dentro de (1-11)**\n");
     printf("Intentalo nuevamente...\n");
         break;
-    }
-    if (opcion != 11) {
+    } // end switch
+
+
+    if (opcion != 12) {
         printf("Desea volver al menú principal? (1: Si, 0: No)\n>> ");
         continuar = LeerNum();
         while (continuar != 0 && continuar != 1) {
           printf("**Error: Opcion invalida.**\n");
-          printf("Ingrese 1 para volver al menu principal o 0 para salir.\n>> ");
+          printf("Ingrese '1' para volver al menu principal o '0' para salir.\n>> ");
           continuar = LeerNum();
         }
         if (continuar == 0) {
+          printf("Salir del programa? (1: No, 0: Si)\n");
+          printf("Se perderan los datos.\n");
+          printf(">> ");
+          continuar = LeerNum();
+          while (continuar != 0 && continuar != 1) {
+            printf("**Error: Opcion invalida.**\n");
+            printf("Ingrese '1' para salir o '0' para volver al menu principal.\n>> ");
+            continuar = LeerNum();
+          }
+          if (continuar == 0) {
           printf("Gracias...\n");
           break;
+          }
         }
     }
-  } while (opcion != 11);
+  } while (opcion != 12);
 
   return 0;
 }
