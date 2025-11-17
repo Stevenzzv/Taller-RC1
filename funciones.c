@@ -6,25 +6,26 @@ void menu(){
     printf("-------------GESTION DE PRODUCCION---------------\n\n");
 
     printf("--- I. GESTION DE PRODUCTOS Y REQUERIMIENTOS ---\n\n");
-    printf("1. Establecer **Recursos** Necesarios\n");
-    printf("2. **Agregar** Nuevo Producto\n");
-    printf("3. Establecer **Recursos** por Producto\n");
-    printf("4. Establecer **Tiempo** de Fabricacion (min)\n");
-    printf("5. Establecer **Demanda** de un Producto\n\n");
+    printf("1. **Agregar** Nuevo Producto (max 5)\n");
+    printf("2. Agregar **Recursos** (max 3)\n");
+    printf("3. Establecer **Recursos Fijos** por Producto\n");
+    printf("4. Establecer **Tiempo** de Fabricacion (horas)\n");
+    printf("5. Visualizar Inventario\n");
+    printf("6. Abastecer/Desabastecer **Recursos**\n");
 
     printf("--- II. CALCULOS Y ANALISIS DE CAPACIDAD ---\n\n");
     
-    printf("6. **Calcular** Tiempo Requerido para Cumplir la Demanda\n");
-    printf("7. **Calcular** Recursos Totales Necesarios para la Produccion\n");
-    printf("8. **Estimar** Cumplimiento de demanda (con Limites de Tiempo/Recursos) \n\n");
+    printf("7. **Calcular** Tiempo Requerido para Cumplir una Demanda\n");
+    printf("8. **Calcular** Recursos Totales Necesarios para la Produccion\n");
+    printf("9. **Estimar** Cumplimiento de demanda (con Limites de Tiempo/Recursos) \n\n");
     
     printf("--- III. EDICION ---\n\n");
-    printf("9. **Editar** Editar un producto\n");
-    printf("10. **Eliminar** Un producto\n\n");
+    printf("10. **Editar** Editar un producto\n");
+    printf("11. **Eliminar** Un producto\n\n");
     
     printf("--- IV. FINALIZAR ---\n\n");
 
-    printf("11. Salir\n");
+    printf("12. Salir\n");
     printf("-------------------------------------------------\n");
     printf(">> ");
 
