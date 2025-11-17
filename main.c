@@ -250,7 +250,6 @@ int main()
         printf("%s: ", productos[i]);
         demanda[i] = LeerNum();
       }
-      
     }
     printf("\n--- Recursos Totales Necesarios ---\n");
     for (int j = 0; j < cantidadRecursos; j++)
@@ -264,16 +263,84 @@ int main()
     }
     break;
     
-    case 9: // Editar producto
-    
-    printf("Que seccion desea editar?\n");
-    printf("1. Nombre del producto\n");
-    printf("2. Nombre de los recursos\n");
-    printf("3. Tiempo de fabricacion\n");
-    printf("4. \n");
-    printf(">> ");
-    
-      
+    case 9: // Estimar cumplimiento de demanda
+    {
+      if (contador == 0) {
+        printf("No hay productos registrados.\n");
+        break;
+      }
+      // Leer demanda por producto
+      printf("Ingrese la demanda para cada producto:\n");
+      for (int i = 0; i < contador; i++) {
+        printf("%s: ", productos[i]);
+        demanda[i] = LeerNum();
+        while (demanda[i] < 0) {
+          printf("**Error: Demanda no puede ser negativa.**\n");
+          printf("Intente nuevamente.\n");
+          printf("%s: ", productos[i]);
+          demanda[i] = LeerNum();
+        }
+      }
+
+      // Tiempo disponible
+      printf("Ingrese el limite de tiempo disponible (horas): ");
+      int limiteTiempo = LeerNum();
+      while (limiteTiempo < 0) {
+        printf("**Error: Tiempo no puede ser negativo.**\n");
+        printf("Intente nuevamente.\n");
+        printf("Ingrese el limite de tiempo disponible (horas): ");
+        limiteTiempo = LeerNum();
+      }
+
+      // Calcular tiempo total necesario
+      int tiempoNecesario = 0;
+      for (int i = 0; i < contador; i++) {
+        tiempoNecesario += tiempo[i] * demanda[i];
+      }
+
+      // Calcular recursos totales necesarios por tipo
+      int recursosNecesarios[3] = {0, 0, 0};
+      for (int j = 0; j < cantidadRecursos; j++) {
+        int total = 0;
+        for (int i = 0; i < contador; i++) {
+          total += recursosP[i][j] * demanda[i];
+        }
+        recursosNecesarios[j] = total;
+      }
+
+      // Mostrar resumen y comparar con disponibles
+      printf("\n--- Estimacion de Cumplimiento de Demanda ---\n");
+      printf("Tiempo necesario: %d horas | Tiempo disponible: %d horas\n", tiempoNecesario, limiteTiempo);
+
+      int tiempo_ok = (tiempoNecesario <= limiteTiempo);
+      if (tiempo_ok) {
+        printf("Tiempo: suficiente.\n");
+      } else {
+        printf("Tiempo: insuficiente. Falta: %d horas\n", tiempoNecesario - limiteTiempo);
+      }
+
+      int recursos_ok = 1;
+      if (cantidadRecursos == 0) {
+        printf("No hay tipos de recurso definidos.\n");
+      } else {
+        printf("\nRecursos necesarios vs disponibles:\n");
+        for (int j = 0; j < cantidadRecursos; j++) {
+          printf("  %s: necesita %d | disponible %d", recursos[j], recursosNecesarios[j], RecursosDisponibles[j]);
+          if (recursosNecesarios[j] <= RecursosDisponibles[j]) {
+            printf(" -> SI SE PUEDE\n");
+          } else {
+            printf(" -> FALTAN %d\n", recursosNecesarios[j] - RecursosDisponibles[j]);
+            recursos_ok = 0;
+          }
+        }
+      }
+
+      if (tiempo_ok && recursos_ok) {
+        printf("\n LA FABRICA PUEDE CUMPLIR CON LA DEMANDA\n");
+      } else {
+        printf("\n NO SE PUEDE CUMPLIR LA DEMANDA. Detalles arriba.\n");
+      }
+    }
     break;
 
     case 10: // Eliminar producto
