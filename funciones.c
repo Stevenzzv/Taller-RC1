@@ -1,30 +1,31 @@
 #include <stdio.h>
 #include <string.h>
 #include "funciones.h"
-
+#define longitudChar 30
 void menu(){
     printf("-------------GESTION DE PRODUCCION---------------\n\n");
 
-    printf("--- I. GESTION DE PRODUCTOS Y ESPECIFICACIONES ---\n\n");
-    printf("1. **Agregar** Nuevo Producto\n");
-    printf("2. **Editar** las Especificaciones de un producto\n");
-    printf("3. **Eliminar** un Producto\n\n");
+    printf("--- I. GESTION DE PRODUCTOS Y REQUERIMIENTOS ---\n\n");
+    printf("1. **Agregar** Nuevo Producto (max 5)\n");
+    printf("2. Agregar **Recursos** (max 3)\n");
+    printf("3. Establecer **Recursos Fijos** por Producto\n");
+    printf("4. Establecer **Tiempo** de Fabricacion (horas)\n");
+    printf("5. Visualizar Inventario\n");
+    printf("6. Abastecer/Desabastecer **Recursos**\n");
 
-    printf("--- II. DEFINICION DE REQUERIMIENTOS ---\n\n");
+    printf("--- II. CALCULOS Y ANALISIS DE CAPACIDAD ---\n\n");
     
-    printf("4. Establecer **Tiempo** de Fabricacion (min)\n");
-    printf("5. Establecer **Recursos** Necesarios\n");
-    printf("6. Establecer **Demanda** de un Producto\n\n");
-    
-    printf("--- III. CALCULOS Y ANALISIS DE CAPACIDAD ---\n\n");
-    
-    printf("7. **Calcular** Tiempo Requerido para Cumplir la Demanda\n");
+    printf("7. **Calcular** Tiempo Requerido para Cumplir una Demanda\n");
     printf("8. **Calcular** Recursos Totales Necesarios para la Produccion\n");
     printf("9. **Estimar** Cumplimiento de demanda (con Limites de Tiempo/Recursos) \n\n");
     
+    printf("--- III. EDICION ---\n\n");
+    printf("10. **Editar** Editar un producto\n");
+    printf("11. **Eliminar** Un producto\n\n");
+    
     printf("--- IV. FINALIZAR ---\n\n");
 
-    printf("10. Salir\n");
+    printf("12. Salir\n");
     printf("-------------------------------------------------\n");
     printf(">> ");
 
@@ -62,61 +63,24 @@ float LeerFloat(){
 }
 
 void LeerChar(char cadena[]){
-    fgets(cadena, 20, stdin);     // Leer 
+    fgets(cadena, longitudChar, stdin);     // Leer 
     int lan = strlen(cadena) - 1; // Encontrar el "\n"
     cadena[lan] = '\0';           // Reemplazar el "\n" por "\0"
 }
 
-void NoRepeat(char nombre[][20], int cont){
-    int c;
-    
-    for (int k = 0; k < cont; k++)
-    {
-        while(strcmp(nombre[cont], nombre[k])==0){
-            LeerChar(nombre[cont]);
+int NoRepeat(char nombre[][longitudChar], int cont, const char *nuevo, int skipIndex){
+    for (int i = 0; i < cont; ++i) {
+        if (i == skipIndex) continue;
+        if (strcmp(nombre[i], nuevo) == 0) return 1; // ya existe
+    }
+    return 0; // no existe
+}
+int blanco(char *cadena){
+    if (cadena[0] == '\0') return 1;
+    for (int i = 0; cadena[i] != '\0'; i++) {
+        if (cadena[i] != ' ' && cadena[i] != '\t') {
+            return 0; // No está en blanco
         }
     }
-}
-
-void selector(int opcion){
-    switch (opcion)
-    {
-    case 1: //Agregar nuevo producto
-
-
-        break;
-    case 2:
-        /* code */
-        break;
-    case 3:
-        /* code */
-        break;
-    case 4:
-        /* code */
-        break;
-    case 5:
-        /* code */
-        break;
-    case 6:
-        /* code */
-        break;
-    case 7:
-        /* code */
-        break;
-    case 8:
-        /* code */
-        break;
-    case 9:
-        /* code */
-        break;
-    case 10:
-        printf("Gracias...\n");
-        break;
-    
-    
-    default:
-        printf("**Elige un numero dentro de (1-6)**\n");
-        printf("Intentalo nuevamente...\n");
-        break;
-    }
+    return 1; // Está en blanco
 }
