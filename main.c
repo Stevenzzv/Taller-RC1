@@ -2,18 +2,21 @@
 #include <string.h>
 #include <math.h>
 #include "funciones.h"
+#define PRODUCTOS_MAXIMOS 5
+#define RECURSOS_MAXIMOS 3
+#define longitudChar 30
 
 int main()
 {
-  char productos[5][30] = {0};
-  char recursos[3][30] = {0};
-  int recursosP [5][3] = {0}; // recursos por producto
-  int tiempo[5] = {0};
-  int demanda[5] = {0};
+  char productos[PRODUCTOS_MAXIMOS][longitudChar] = {0};
+  char recursos[RECURSOS_MAXIMOS][longitudChar] = {0};
+  int recursosP [PRODUCTOS_MAXIMOS][RECURSOS_MAXIMOS] = {0}; // recursos por producto
+  int tiempo[PRODUCTOS_MAXIMOS] = {0};
+  int demanda[PRODUCTOS_MAXIMOS] = {0};
   int opcion = 0;
   int contador = 0;  // ← cuántos productos hay
   int cantidadRecursos = 0; // ← cuántos recursos hay
-  int RecursosDisponibles[3] = {0};
+  int RecursosDisponibles[RECURSOS_MAXIMOS] = {0};
   int continuar = 1;
 
   do{
@@ -25,10 +28,10 @@ int main()
     switch (opcion)
     {
       case 1: // Agregar producto (max 5)
-      if (contador < 5) {
+      if (contador < PRODUCTOS_MAXIMOS) {
         printf("Ingrese el nombre del producto: ");
         limpiar_Buffer();
-        char nombreProducto[30];
+        char nombreProducto[longitudChar]={0};
         LeerChar(nombreProducto);
         if (blanco(nombreProducto)==1) {
           printf("**Error: Nombre del producto en blanco.**\n");
@@ -50,13 +53,13 @@ int main()
       }
     
       break;
-    case 2: //Establecer recursos necesarios (tipos, max 3)
-    if (cantidadRecursos >= 3) {
+    case 2: {//Establecer recursos necesarios (tipos, max 3)
+    if (cantidadRecursos >= RECURSOS_MAXIMOS) {
       printf("**Error: Capacidad maxima de recursos alcanzada.**\n");
       printf("No se pueden agregar mas recursos.\n");
       break;
     }
-    char nuevoRecurso[30]={0}; // Temporal para verificar repetidos
+    char nuevoRecurso[longitudChar]={0}; // Temporal para verificar repetidos
     printf("Ingrese el nombre del recurso %d: ", cantidadRecursos + 1);
     limpiar_Buffer();
     LeerChar(nuevoRecurso);
@@ -78,9 +81,17 @@ int main()
     cantidadRecursos++;
     printf("Recurso agregado exitosamente.\n"); 
     
-    break;  
+    break;  }
     
     case 3: //Establecer recursos por producto
+    if (contador == 0) {
+      printf("No hay productos registrados.\n");
+      break;
+    }
+    if (cantidadRecursos == 0) {
+      printf("No hay recursos registrados.\n");
+      break;
+    }
     printf("Seleccione el producto a configurar:\n");
     for (int i = 0; i < contador; i++)
     {
@@ -102,7 +113,11 @@ int main()
     }
     
     break;
-    case 4: //Establecer tiempo de fabricacion
+    case 4: {//Establecer tiempo de fabricacion
+    if (contador == 0) {
+      printf("No hay productos registrados.\n");
+      break;
+    }
     printf("Seleccione el producto a configurar:\n");
     for (int i = 0; i < contador; i++)
     {
@@ -119,9 +134,14 @@ int main()
     printf("Has seleccionado: %s\n", productos[prodIndex]);
     printf("Ingrese el tiempo en horas de fabricacion para %s: ", productos[prodIndex]);
     tiempo[prodIndex] = LeerNum();
-    
+  }
     break;
     case 5: //Visualizar inventario
+    if (contador == 0 && cantidadRecursos == 0) {
+      printf("No hay productos ni recursos registrados.\n");
+      break;
+    }
+    
     printf("----- INVENTARIO DE PRODUCTOS -----\n\n");
     printf("Cantidad de recursos registrados: %d\n", cantidadRecursos);
     for (int i = 0; i < cantidadRecursos; i++)
@@ -148,6 +168,11 @@ int main()
     }
     break;
     case 6: // Abastecer/Desabastecer recursos
+    if (cantidadRecursos == 0) {
+      printf("No hay recursos registrados a abastecer.\n");
+      break;
+    }
+
     printf("Seleccione la operacion:\n");
     printf("1. Abastecer Recursos\n");
     printf("2. Desabastecer Recursos\n");
@@ -211,8 +236,16 @@ int main()
     
     
     break;
-    case 7: // Calcular tiempo requerido para cumplir demanda
-    demanda[0] = 0; demanda[1] = 0; demanda[2] = 0; demanda[3] = 0; demanda[4] = 0; // Reiniciar demandas
+    case 7: {// Calcular tiempo requerido para cumplir demanda
+    if (contador == 0) {
+      printf("No hay productos registrados.\n");
+      break;
+    }
+    // Leer demanda por producto
+    
+    for (int i = 0; i < PRODUCTOS_MAXIMOS; i++) {
+      demanda[i] = 0;
+    }
     printf("Ingrese la demanda para cada producto:\n");
     for (int i = 0; i < contador; i++)
     {
@@ -234,10 +267,17 @@ int main()
     printf("\n--- Tiempo Requerido para Cumplir la Demanda ---\n");
     printf("Tiempo total requerido: %d horas\n", tiempoTotal);
     
-    
+  }
     break;
     case 8:// Calcular recursos totales necesarios
-    demanda[0] = 0; demanda[1] = 0; demanda[2] = 0; demanda[3] = 0; demanda[4] = 0; // Reiniciar demandas
+    if (contador == 0 || cantidadRecursos == 0) {
+      printf("No hay productos o recursos registrados.\n");
+      break;
+    }
+    // Leer demanda por producto
+    for (int i = 0; i < PRODUCTOS_MAXIMOS; i++) {
+      demanda[i] = 0;
+    }
     printf("Ingrese la demanda para cada producto:\n");
     for (int i = 0; i < contador; i++)
     {
@@ -261,12 +301,13 @@ int main()
       }
       printf("%s: %d unidades\n", recursos[j], totalRecurso);
     }
+    
     break;
     
     case 9: // Estimar cumplimiento de demanda
     {
-      if (contador == 0) {
-        printf("No hay productos registrados.\n");
+      if (contador == 0 && cantidadRecursos == 0) {
+        printf("No hay productos ni recursos registrados.\n");
         break;
       }
       // Leer demanda por producto
@@ -344,6 +385,10 @@ int main()
     break;
 
     case 10: {
+      if (contador == 0 && cantidadRecursos == 0) { 
+        printf("No hay productos ni recursos registrados.\n");
+        break;
+      }
     // Menú para editar nombres
     printf("Que desea editar?\n");
     printf("1. Nombre de un producto\n");
@@ -465,7 +510,7 @@ break;
     
     
     default:
-    printf("**Elige un numero dentro de (1-11)**\n");
+    printf("**Elige un numero dentro de (1-12)**\n");
     printf("Intentalo nuevamente...\n");
         break;
     } // end switch

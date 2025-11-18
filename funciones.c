@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "funciones.h"
-
+#define longitudChar 30
 void menu(){
     printf("-------------GESTION DE PRODUCCION---------------\n\n");
 
@@ -63,12 +63,12 @@ float LeerFloat(){
 }
 
 void LeerChar(char cadena[]){
-    fgets(cadena, 30, stdin);     // Leer 
+    fgets(cadena, longitudChar, stdin);     // Leer 
     int lan = strlen(cadena) - 1; // Encontrar el "\n"
     cadena[lan] = '\0';           // Reemplazar el "\n" por "\0"
 }
 
-int NoRepeat(char nombre[][30], int cont, const char *nuevo, int skipIndex){
+int NoRepeat(char nombre[][longitudChar], int cont, const char *nuevo, int skipIndex){
     for (int i = 0; i < cont; ++i) {
         if (i == skipIndex) continue;
         if (strcmp(nombre[i], nuevo) == 0) return 1; // ya existe
